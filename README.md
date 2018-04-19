@@ -1,3 +1,6 @@
+Purpose:
+Implement http(s) via SIM for FreematicsONE+ (firmware_v5)
+
 Directories
 ===========
 
