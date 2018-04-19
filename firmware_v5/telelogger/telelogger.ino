@@ -16,7 +16,9 @@
 ******************************************************************************/
 
 #include <FreematicsPlus.h>
+#include <HTTPClient.h>
 #include "config.h"
+#include "config-sfde.h"
 
 // logger states
 #define STATE_STORAGE_READY 0x1
@@ -54,6 +56,26 @@ String serialCommand;
 byte ledMode = 0;
 
 void idleTasks();
+
+//Ab hier HTTP Test
+class HTTPClientX : public HTTPClient 
+{
+  public:
+    bool open() {
+      HTTPClient.begin(HTTP_HOST, HTTP_PORT);
+      HTTPClient.addHeader("Content-Type", HTTP_CONTENT_TYPE);
+      HTTPClient.addHeader("x-im-apikey", HTTP_API_KEY);
+    }
+    bool send(const char* data) {
+      Serial.print("LALALA");
+      HTTPClient.POST(data);
+    }
+};
+
+HTTPClientX http;
+
+//Bis hier HTTP Test
+
 
 class State {
 public:
@@ -241,12 +263,18 @@ bool login()
 
 void transmit()
 {
-  //Serial.println(cache.buffer()); // print the content to be sent
+  Serial.println(cache.buffer()); // print the content to be sent
   Serial.print('[');
   Serial.print(txCount);
   Serial.print("] ");
   cache.tailer();
   // transmit data
+  if (http.send(cache.buffer())) {
+    //...
+    Serial.print("Sent!... als ob :-)");
+  }
+
+
   if (net.send(cache.buffer(), cache.length())) {
     connErrors = 0;
     txCount++;
