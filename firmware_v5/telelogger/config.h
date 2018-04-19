@@ -53,6 +53,7 @@
 #endif
 
 #define SERVER_KEY "TEST_SERVER_KEY"
+#define API_KEY "PUT_API_KEY_HERE"
 
 // maximum consecutive communication errors before entering standby
 #define MAX_CONN_ERRORS 20
