@@ -16,8 +16,8 @@
 ******************************************************************************/
 
 #include <FreematicsPlus.h>
-#include <HTTPClient.h>
 #include "config.h"
+#include "HTTPsfde.h"
 #include "config-sfde.h"
 
 // logger states
@@ -58,21 +58,8 @@ byte ledMode = 0;
 void idleTasks();
 
 //Ab hier HTTP Test
-class HTTPClientX : public HTTPClient 
-{
-  public:
-    bool open() {
-      HTTPClient.begin(HTTP_HOST, HTTP_PORT);
-      HTTPClient.addHeader("Content-Type", HTTP_CONTENT_TYPE);
-      HTTPClient.addHeader("x-im-apikey", HTTP_API_KEY);
-    }
-    bool send(const char* data) {
-      Serial.print("LALALA");
-      HTTPClient.POST(data);
-    }
-};
 
-HTTPClientX http;
+HTTPClientX http; //Klasse noch umbenennen
 
 //Bis hier HTTP Test
 
@@ -225,6 +212,13 @@ bool login()
       Serial.println("NO");
       continue;
     }
+    // SFDE
+    if (!http.open(HTTP_HOST, HTTP_PORT)){
+      Serial.println("HTTP: NO");
+    }
+    http.addHeader("Content-Type", HTTP_CONTENT_TYPE);
+    http.addHeader("x-im-apikey", HTTP_API_KEY);
+    // -SFDE
     char payload[128];
     char *p = payload + sprintf(payload, "VIN=%s", vin);
 #if ENABLE_OBD
@@ -269,6 +263,7 @@ void transmit()
   Serial.print("] ");
   cache.tailer();
   // transmit data
+  //http.open();
   if (http.send(cache.buffer())) {
     //...
     Serial.print("Sent!... als ob :-)");

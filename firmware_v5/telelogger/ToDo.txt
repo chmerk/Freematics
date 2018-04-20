@@ -1,0 +1,6 @@
+ToDos, offene Fragen,...
+
+- Evtl. ist grlobale Zeit nötig, da Arduino erstmal nur seine lokale Zeit (seit Start) weiß.
+    - (Eigtl. nur wenn Gefahr von Dopplungen besteht!?)
+
+- Anzeige (Blinken) der Benutzer anzeigt, ob Dongle Connected, sendet,...
