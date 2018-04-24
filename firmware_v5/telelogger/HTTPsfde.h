@@ -14,9 +14,13 @@ class HTTPClientX : public HTTPClient
     bool open(String host, int port) {   //port wird bisher nicht verwendet
       if (HTTPClient::begin(host)) {
         Serial.println("Opened HTTP connection!");
+
+        return true;
       }
-      
+
+      return false;
     }
+    
     bool send(const char* data) {
       Serial.print("Sending Data: ");
       int postResult = HTTPClient::sendRequest("POST", data);
