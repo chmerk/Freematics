@@ -208,17 +208,22 @@ bool login()
   // connect to telematics server
   for (byte attempts = 0; attempts < 3; attempts++) {
     Serial.print("LOGIN...");
-    if (!net.open(SERVER_HOST, SERVER_PORT)) {
-      Serial.println("NO");
-      continue;
-    }
+    // if (!net.open(SERVER_HOST, SERVER_PORT)) {
+    //   Serial.println("NO");
+    //   continue;
+    // }
+
+      Serial.println("SFDE...");
     // SFDE
     if (!http.open(HTTP_HOST, HTTP_PORT)){
       Serial.println("HTTP: NO");
+    } else {
+      Serial.println("HTTP: YES");
+      http.addHeader("Content-Type", HTTP_CONTENT_TYPE);
+      http.addHeader("x-im-apikey", HTTP_API_KEY);
     }
-    http.addHeader("Content-Type", HTTP_CONTENT_TYPE);
-    http.addHeader("x-im-apikey", HTTP_API_KEY);
     // -SFDE
+
     char payload[128];
     char *p = payload + sprintf(payload, "VIN=%s", vin);
 #if ENABLE_OBD
@@ -263,10 +268,10 @@ void transmit()
   Serial.print("] ");
   cache.tailer();
   // transmit data
-  //http.open();
+
   if (http.send(cache.buffer())) {
     //...
-    Serial.print("Sent!... als ob :-)");
+    Serial.print("Sent data via http");
   }
 
 

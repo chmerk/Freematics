@@ -41,12 +41,12 @@
 **************************************/
 #ifndef NET_DEVICE
 // change the following line to change network device
-#define NET_DEVICE NET_WIFI
+#define NET_DEVICE NET_SIM800
 // WIFI settings
-#define WIFI_SSID "FREEMATICS"
+#define WIFI_SSID "WIFI-SSID"
 #define WIFI_PASSWORD "PASSWORD"
 // APN settings for cellular network
-#define CELL_APN "connect"
+#define CELL_APN "web.vodafone.de"
 // Freematics Hub server settings
 #define SERVER_HOST "hub.freematics.com"
 #define SERVER_PORT 8081
